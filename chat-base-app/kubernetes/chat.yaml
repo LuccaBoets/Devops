@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat
+spec:
+  selector: 
+    matchLabels:
+      app: chat
+  template:
+    metadata:
+      labels:
+        app: chat
+    spec: 
+      containers:
+        - name: chat
+          image: luccaboets/chat-api:latest
+          ports:
+            - containerPort: 3000
+              name: http-web-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat
+spec:
+  selector: 
+    app: chat
+  ports:
+    - name: static
+      protocol: TCP
+      port: 3000
+      targetPort: http-web-svc
