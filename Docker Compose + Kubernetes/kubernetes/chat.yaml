@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatapp-chat
+spec:
+  selector: 
+    matchLabels:
+      app: chatapp-chat
+  template:
+    metadata:
+      labels:
+        app: chatapp-chat
+    spec: 
+      containers:
+        - name: chatapp-chat
+          image: chat-api:latest
+          ports:
+            - containerPort: 3000
+              name: http-web-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatapp-chat
+spec:
+  selector: 
+    app: chatapp-chat
+  ports:
+    - name: static
+      protocol: TCP
+      port: 3000
+      targetPort: http-web-svc
