@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+spec:
+  selector: 
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec: 
+      containers:
+        - name: auth
+          image: chat-base-app-main_auth:latest
+          ports:
+            - containerPort: 3000
+              name: http-web-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+spec:
+  selector: 
+    app: auth
+  ports:
+    - name: static
+      protocol: TCP
+      port: 3000
+      targetPort: http-web-svc
